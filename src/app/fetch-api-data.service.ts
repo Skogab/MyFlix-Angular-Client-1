@@ -5,7 +5,7 @@ import { Observable, throwError } from 'rxjs';
 
 
 //Declaring the api url that will provide data for the client app
-const apiUrl = 'https://movie-api-asears.onrender.com';
+const apiUrl = 'https://movie-api-asears.onrender.com/';
 @Injectable({
   providedIn: 'root'
 })
