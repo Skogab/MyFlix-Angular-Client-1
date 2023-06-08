@@ -7,6 +7,15 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
   templateUrl: './movie-info.component.html',
   styleUrls: ['./movie-info.component.scss']
 })
+
+/** 
+ * This component will render the movie info dialog
+ * @export
+ * @class MovieInfoComponent
+ * @implements {OnInit}
+ * @example <app-movie-info></app-movie-info>
+ * @see MAT_DIALOG_DATA
+ */
 export class MovieInfoComponent implements OnInit {
 
   constructor(

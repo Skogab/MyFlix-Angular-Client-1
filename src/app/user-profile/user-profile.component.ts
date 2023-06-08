@@ -36,7 +36,14 @@ export class UserProfileComponent implements OnInit {
   ngOnInit(): void {
     this.getUser();
   }
-
+/**
+ * This method will get the user data from the API
+ * @param void
+ * @returns user object
+ * @memberof UserProfileComponent
+ * @see FetchApiDataService.getOneUser()
+ * @example getUser()
+ */
   getUser(): void {
     this.user = this.fetchApiData.getOneUser();
     this.userData.Username = this.user.Username;
@@ -48,7 +55,14 @@ export class UserProfileComponent implements OnInit {
       this.favoriteMovies = resp.filter((m: { _id: any; }) => this.user.FavoriteMovies.indexOf(m._id) >= 0);
     });
   }
-
+/**
+ * This method will send the form inputs to the backend
+ * @param void
+ * @returns user object
+ * @memberof UserProfileComponent
+ * @see FetchApiDataService.editUser()
+ * @example editUser()
+ */
   editUser(): void {
     this.fetchApiData.editUser(this.userData).subscribe((result) => {
       localStorage.setItem('user', JSON.stringify(result));
@@ -62,7 +76,15 @@ export class UserProfileComponent implements OnInit {
       });
     });
   }
-
+/**
+ * This method will send the user object to the backend to be deleted
+ * @param void
+ * @returns user object
+ * @memberof UserProfileComponent
+ * @see FetchApiDataService.deleteUser()
+ * @example deleteUser()
+ * 
+ */
   deleteUser(): void {
     this.fetchApiData.deleteUser().subscribe((result) => {
       localStorage.clear();
