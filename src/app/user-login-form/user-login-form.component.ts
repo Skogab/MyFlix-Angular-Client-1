@@ -1,58 +1,80 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { Router } from '@angular/router';
+/**
+ * @fileOverview UserLoginFormComponent stellt eine Anmeldeformular für dar.
+ * @module UserLoginFormComponent
+ */
 
-// You'll use this import to close the dialog on success
-import { MatDialogRef } from '@angular/material/dialog';
+import { Component, OnInit, Input } from "@angular/core";
+import { Router } from "@angular/router";
+import { MatDialogRef } from "@angular/material/dialog";
+import { FetchApiDataService } from "../fetch-api-data.service";
+import { MatSnackBar } from "@angular/material/snack-bar";
 
-// This import brings in the API calls we created in 6.2
-import { FetchApiDataService } from '../fetch-api-data.service';
-
-// This import is used to display notifications back to the user
-import { MatSnackBar } from '@angular/material/snack-bar';
-
-
+/**
+ *
+ * @class
+ * @name UserLoginFormComponent
+ * @implements {OnInit}
+ * @example <app-user-login-form></app-user-login-form>
+ * @see FetchApiDataService
+ */
 @Component({
-  selector: 'app-user-login-form',
-  templateUrl: './user-login-form.component.html',
-  styleUrls: ['./user-login-form.component.scss']
+	selector: "app-user-login-form",
+	templateUrl: "./user-login-form.component.html",
+	styleUrls: ["./user-login-form.component.scss"],
 })
 export class UserLoginFormComponent implements OnInit {
+	@Input() loginData = { Username: "", Password: "" };
 
-  @Input() loginData = { Username: '', Password: '' };
+	/**
+	 * Konstruiert eine Instanz von UserLoginFormComponent.
+	 * @constructor
+	 * @param {FetchApiDataService} fetchApiData .
+	 * @param {MatDialogRef} dialogRef
+	 * @param {MatSnackBar} snackBar
+	 * @param {Router} router
+	 */
+	constructor(
+		public fetchApiData: FetchApiDataService,
+		public dialogRef: MatDialogRef<UserLoginFormComponent>,
+		public snackBar: MatSnackBar,
+		private router: Router
+	) {}
 
-  constructor(
-    public fetchApiData: FetchApiDataService,
-    public dialogRef: MatDialogRef<UserLoginFormComponent>,
-    public snackBar: MatSnackBar,
-    private router: Router
-  ) { }
+	/**
+	 * Wird beim Initialisieren der Komponente aufgerufen.
+	 * @function
+	 * @name ngOnInit
+	 * @returns {void}
+	 * @memberof UserLoginFormComponent
+	 */
+	ngOnInit(): void {}
 
-  ngOnInit(): void {
-  }
-/**
- * This method will send the form inputs to the backend
- * @param void
- * @returns user object
- * @memberof UserLoginFormComponent
- * @see FetchApiDataService.userLogin()
- * @example loginUser()
- */
-  // This is the function responsible for sending the form inputs to the backend
-  loginUser(): void {
-    this.fetchApiData.userLogin(this.loginData).subscribe((result) => {
-      // Logic for a successful user login goes here! (To be implemented)
-      localStorage.setItem('user', JSON.stringify(result.user));
-      localStorage.setItem('token', result.token);
-      this.dialogRef.close(); // This will close the modal on success!
-      this.router.navigate(['movies']);
-      this.snackBar.open('Logged in', 'OK', {
-        duration: 2000
-      });
-    }, (result) => {
-      this.snackBar.open(result, 'OK', {
-        duration: 2000
-      });
-    });
-  }
-
+	/**
+	 * Sendet die Formulareingaben an den Backend-Server zur Benutzeranmeldung.
+	 * @function
+	 * @name loginUser
+	 * @param {void}
+	 * @returns {void}
+	 * @memberof UserLoginFormComponent
+	 * @see FetchApiDataService.userLogin()
+	 * @example loginUser()
+	 */
+	loginUser(): void {
+		this.fetchApiData.userLogin(this.loginData).subscribe(
+			(result) => {
+				localStorage.setItem("user", JSON.stringify(result.user));
+				localStorage.setItem("token", result.token);
+				this.dialogRef.close();
+				this.router.navigate(["movies"]);
+				this.snackBar.open("Eingeloggt", "OK", {
+					duration: 2000,
+				});
+			},
+			(result) => {
+				this.snackBar.open(result, "OK", {
+					duration: 2000,
+				});
+			}
+		);
+	}
 }
